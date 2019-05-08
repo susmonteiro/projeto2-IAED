@@ -1,49 +1,91 @@
 #include "listas.h"
 
-link NEW(Contacto *c) {
-    link x = (link)malloc(sizeof(struct node));
-    x->contacto = c;
+static Cont head;
+static Cont tail;
+
+Cont NEW(Cont c) {
+    Cont x = novo_contacto(c);
     x->next = NULL;
+    x->prev = NULL;
     return x;
 }
 
-link insertBegin(link head, Contacto *c) {
-    link x = NEW(c);
-    x->next = head;
-    return x;   /* nova head */
+Cont novo_contacto(Cont c) {
+    Cont t = (Cont)malloc(sizeof(struct contacto));
+    t->nome = (char*)malloc(sizeof(char)*(strlen(c->nome)+1));
+    strcpy(t->nome, c->nome);
+    t->user = (char*)malloc(sizeof(char)*(strlen(c->user)+1));
+    strcpy(t->user, c->user);
+    t->dom = (char*)malloc(sizeof(char)*(strlen(c->dom)+1));
+    strcpy(t->dom, c->dom);
+    t->num = (char*)malloc(sizeof(char)*(strlen(c->num)+1));
+    strcpy(t->num, c->num);
+    return t;
 }
 
-link procura(link head, char *nome) {
-    link t;
+/*Cont insere_inicio(Cont head, Contacto *c) {
+    Cont x = NEW(c);
+    x->next = head;
+    head->prev = x;
+    return x;    nova head 
+}*/
+
+void insere_fim(Cont c) {
+    Cont x = NEW(c);
+    x->prev = tail;
+    if (tail != NULL)
+        tail->next = x;
+    else
+        head = x;
+    tail = x;   /* nova tail */
+}
+
+/*Cont procura(Cont head, char *nome) {
+    Cont t;
     for (t = head; t != NULL; t = t->next)
         if (!strcmp(t->contacto->nome,nome))
             return t;
     return NULL;
 }
+*/
 
-void print(link head) {
-    link t;
+void print() {
+    Cont t;
     for (t = head; t != NULL; t = t->next)
         printf("something\n");
 }
 
-link apaga(link head, char *nome) {
-    link t, prev;
-
-    for(t = head, prev = NULL; t != NULL; prev = t, t = t->next) {
-        if (!strcmp(t->contacto->nome,nome)) {
-            if (t == head)
-                head = t->next;
-            else
-                prev->next = t->next;
-            freenode(t);            
-        }
+void apaga(Cont c) {
+    if (c == head) {
+        head = c->next;
+        head->prev = NULL;
+    } else if (c == tail) {
+        tail = c->prev;
+        tail->next = NULL;
+    } else {
+        c->prev->next = c->next;
+        c->next->prev = c->prev;
     }
-    return head;
+    freenode(c);            
 }
 
-void freenode(link t) {
-    free(t->next);
-    free(t->contacto);
-    free(t);
+void freenode(Cont c) {
+    free(c->nome);
+    free(c->user);
+    free(c->dom);
+    free(c->num);
+    free(c);
+}
+
+void destroy() {
+    Cont c = NULL;
+    while (head != NULL) {
+        c = head->next;
+        freenode(c);
+        head = c;
+    }
+}
+
+int main() {
+    return 0;
 }

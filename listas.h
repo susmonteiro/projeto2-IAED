@@ -1,16 +1,22 @@
 #include <stdio.h>
-#include "contactos.h"
+#include <stdlib.h>
+#include <string.h>
 
-typedef struct node {
-    Contacto *contacto;
-    struct node *next;
-} *link;
+typedef struct contacto {
+    struct contacto *next, *prev;
+    char *nome;
+    char *user;
+    char *dom;
+    char *num;
+} *Cont;
+
 
 /* funcao length? */
 
-link NEW(Contacto *c); /* alocacao de memoria para o novo no*/
-link insertBegin (link head, Contacto *c);
-link procura(link head, char *nome);
-void print(link head);
-link apaga(link head, char *nome);
-void freenode(link t);
+Cont NEW(Cont c); /* criacao do novo contacto */
+Cont novo_contacto(Cont c);
+void insere_fim (Cont c); /* inserir elemento no final da lista */
+void print();
+void apaga(Cont c);
+void freenode(Cont c);
+void destroy();
