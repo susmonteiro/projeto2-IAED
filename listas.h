@@ -1,6 +1,11 @@
+#ifndef _LISTAS_
+#define _LISTAS_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+
 
 typedef struct contacto {
     struct contacto *next, *prev;
@@ -20,3 +25,5 @@ void print();
 void apaga(Cont c);
 void freenode(Cont c);
 void destroy();
+
+#endif

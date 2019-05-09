@@ -55,7 +55,7 @@ void print() {
         printf("something\n");
 }
 
-void apaga(Cont c) {
+void l_apaga(Cont c) {
     if (c == head) {
         head = c->next;
         head->prev = NULL;
@@ -77,7 +77,7 @@ void freenode(Cont c) {
     free(c);
 }
 
-void destroy() {
+void l_destroy() {
     Cont c = NULL;
     while (head != NULL) {
         c = head->next;
