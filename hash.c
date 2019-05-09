@@ -12,6 +12,8 @@ void init_nomes() {
         nomes[i] = NULL;
 }
 
+/* inicializacao da hashtable com os contactos organizados 
+    de acordo com o seu dominio do email*/
 void init_emails() {
     int i;
 
@@ -66,6 +68,21 @@ void h_destroy(Node head) {
         head = aux;
     }
 } 
+
+/* devolve um numero gerado a partir de uma string, 
+    para ser usado na funcao de dispersao*/
+unsigned int djb (char *s) {
+    unsigned int hash = CONST1DJB; /* CONSTANTE */
+    int c;
+
+    while ((c = *s++))
+        hash = hash * CONST2DJB + c; /* CONSTANTE */
+    return hash;
+}
+
+unsigned int indice_hash(char *s) {
+    return (djb(s)%NUMNOMES);
+}
 
 int main() {
     return 0;

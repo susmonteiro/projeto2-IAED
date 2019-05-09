@@ -22,8 +22,8 @@ Cont NEW(Cont c); /* criacao do novo contacto */
 Cont novo_contacto(Cont c);
 void insere_fim (Cont c); /* inserir elemento no final da lista */
 void print();
-void apaga(Cont c);
+void l_apaga(Cont c);
 void freenode(Cont c);
-void destroy();
+void l_destroy();
 
 #endif
