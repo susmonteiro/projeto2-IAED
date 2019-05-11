@@ -3,24 +3,43 @@
 static Cont head;
 static Cont tail;
 
-Cont NEW(Cont c) {
-    Cont x = novo_contacto(c);
-    x->next = NULL;
-    x->prev = NULL;
-    return x;
+Cont NEW() {
+    Cont c = novo_contacto();
+    c->next = NULL;
+    c->prev = NULL;
+    return c;
 }
 
-Cont novo_contacto(Cont c) {
-    Cont t = (Cont)malloc(sizeof(struct contacto));
-    t->nome = (char*)malloc(sizeof(char)*(strlen(c->nome)+1));
-    strcpy(t->nome, c->nome);
-    t->user = (char*)malloc(sizeof(char)*(strlen(c->user)+1));
-    strcpy(t->user, c->user);
-    t->dom = (char*)malloc(sizeof(char)*(strlen(c->dom)+1));
-    strcpy(t->dom, c->dom);
-    t->num = (char*)malloc(sizeof(char)*(strlen(c->num)+1));
-    strcpy(t->num, c->num);
-    return t;
+Cont cont_aux() {
+    Cont c = (Cont)malloc(sizeof(struct contacto));
+
+    c->nome = (char*)malloc(sizeof(char*)*MAXNOME);
+    c->user = (char*)malloc(sizeof(char*)*MAXEMAIL);
+    c->dom = (char*)malloc (sizeof(char*)*MAXEMAIL);
+    c->num = (char*)malloc(sizeof(char*)*MAXNUMERO);  
+    return c;  
+}
+
+Cont novo_contacto() {
+    char buffer[MAXCHAR];
+    char *token;
+    Cont c = (Cont)malloc(sizeof(struct contacto));
+
+    fgets(buffer, MAXCHAR, stdin);
+    buffer[strlen(buffer) - 1] = NUL;   /* ignorar o \n do final do input */
+    token = strtok(buffer, SEPARADOR);
+    c->nome = (char*)malloc(sizeof(char)*(strlen(token)+1));
+    strcpy(c->nome, token);
+    token = strtok(NULL, ARROBA);
+    c->user = (char*)malloc(sizeof(char)*(strlen(token)+1));
+    strcpy(c->user, token);
+    token = strtok(NULL, SEPARADOR);
+    c->dom = (char*)malloc(sizeof(char)*(strlen(token)+1));
+    strcpy(c->dom, token);
+    token = strtok(NULL, token);
+    c->num = (char*)malloc(sizeof(char)*(strlen(token)+1));
+    strcpy(c->num, token);
+    return c;
 }
 
 /*Cont insere_inicio(Cont head, Contacto *c) {
@@ -31,13 +50,12 @@ Cont novo_contacto(Cont c) {
 }*/
 
 void insere_fim(Cont c) {
-    Cont x = NEW(c);
-    x->prev = tail;
+    c->prev = tail;
     if (tail != NULL)
-        tail->next = x;
+        tail->next = c;
     else
-        head = x;
-    tail = x;   /* nova tail */
+        head = c;
+    tail = c;   /* nova tail */
 }
 
 /*Cont procura(Cont head, char *nome) {
@@ -52,7 +70,7 @@ void insere_fim(Cont c) {
 void print() {
     Cont t;
     for (t = head; t != NULL; t = t->next)
-        printf("something\n");
+        printf("%s %s@%s %s\n", t->nome, t->user, t->dom, t->num);
 }
 
 void l_apaga(Cont c) {
@@ -84,8 +102,4 @@ void l_destroy() {
         freenode(c);
         head = c;
     }
-}
-
-int main() {
-    return 0;
 }

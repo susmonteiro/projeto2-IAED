@@ -5,7 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+#define MAXCHAR 2048
+#define MAXNOME 1024
+#define MAXEMAIL 512
+#define MAXNUMERO 64
+#define NUL '\0'
+#define SEPARADOR " "
+#define ARROBA "@"
 
 typedef struct contacto {
     struct contacto *next, *prev;
@@ -18,8 +24,9 @@ typedef struct contacto {
 
 /* funcao length? */
 
-Cont NEW(Cont c); /* criacao do novo contacto */
-Cont novo_contacto(Cont c);
+Cont NEW(); /* criacao do novo contacto */
+Cont novo_contacto();
+Cont cont_aux();
 void insere_fim (Cont c); /* inserir elemento no final da lista */
 void print();
 void l_apaga(Cont c);

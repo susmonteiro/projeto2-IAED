@@ -1,6 +1,14 @@
 all: p2.c
-		gcc -Wall -Wextra -ansi -pedantic -o p2 p2.c p2.h
+		gcc -Wall -Wextra -ansi -pedantic -o p2 p2.c hash.c listas.c
 
+exp: hashtables_ex.c
+		gcc -Wall -Wextra -ansi -pedantic -g -o hashtables_ex hashtables_ex.c
+
+listas: listas.c listas.h
+		gcc -Wall -Wextra -ansi -pedantic -o listas listas.c listas.h
+
+hash: hash.c hash.h
+		gcc -Wall -Wextra -ansi -pedantic -o hash hash.c hash.h
 gdb:
 		gcc -Wall -Wextra -ansi -pedantic -o p2 p2.c -g
 

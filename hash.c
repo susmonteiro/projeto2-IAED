@@ -84,6 +84,17 @@ unsigned int indice_hash(char *s) {
     return (djb(s)%NUMNOMES);
 }
 
-int main() {
-    return 0;
+void insere_nomes(Cont c) {
+    int i = indice_hash(c->nome);
+    nomes[i] = push(nomes[i], c);
+}
+
+void insere_emails(Cont c) {
+    int i = indice_hash(c->dom);
+    emails[i] = push(emails[i], c);
+}
+
+Node procura_nomes(char *nome) {
+    int i = indice_hash(nome);
+    return procura_nome(nomes[i], nome);
 }
