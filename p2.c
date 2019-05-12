@@ -15,7 +15,7 @@ int main() {
         getchar();  /* ignora o espaco entre o comando e o resto do input */
         switch (c) {
             case 'a':
-                adiciona_evento();
+                adiciona_contacto();
                 break;
             case 'l':
                 lista_todos();
@@ -23,9 +23,8 @@ int main() {
             case 'p':
                 procura_contacto();
                 break;
-            /*
             case 'r':
-                apaga_evento();
+                apaga_contacto();
                 break;
             case 'e':
                 altera_email();
@@ -33,9 +32,9 @@ int main() {
             case 'c':
                 numero_dom_email();
                 break;
-            */
             case 'x':
-                /*l_destroy();*/
+                l_destroy();
+                h_destroy();
                 return EXIT_SUCCESS;
             default:
                 fprintf(stderr, "Invalid input: %d\n", c);
@@ -45,10 +44,12 @@ int main() {
 }
 
 /*                            FUNCOES PRINCIPAIS                             */
-void adiciona_evento() {
+void adiciona_contacto() {
     Cont c = NEW();
-    if (procura_nomes(c->nome) != NULL)
+    if (procura_nomes(c->nome) != NULL) {
         printf("Nome existente.\n");
+        freenode(c);
+    }
     else {
         insere_fim(c);
         insere_nomes(c);
@@ -61,14 +62,63 @@ void lista_todos() {
 }
 
 void procura_contacto() {
-    char nome[MAXNOME];
-    Node cptr = (Node)malloc(sizeof(struct node));
+    Node cptr = procura_contacto_aux();
 
-    fgets(nome, MAXNOME, stdin);
-    nome[strlen(nome) - 1] = NUL; /* ignorar o \n do final do input */
-    if ((cptr = procura_nomes(nome)) == NULL) 
-        printf("Nome inexistente.\n");
-    else
+    if (cptr)
         printf("%s %s@%s %s\n", cptr->c->nome, cptr->c->user, cptr->c->dom, cptr->c->num);
 }
 
+Node procura_contacto_aux() {
+    char nome[MAXNOME];
+
+    fgets(nome, MAXNOME, stdin);
+    nome[strlen(nome) - 1] = NUL; /* ignorar o \n do final do input */
+    return itera_contactos(nome);
+}
+
+Node itera_contactos(char *nome) {
+    Node cptr;
+
+    if ((cptr = procura_nomes(nome)) == NULL) 
+        printf("Nome inexistente.\n");
+    return cptr;
+}
+
+void apaga_contacto() {
+    Node cptr = procura_contacto_aux();
+    Cont c;
+
+    if (!cptr) return;
+    c = cptr->c;
+    apaga_emails(cptr->c->nome, cptr->c->dom);
+    apaga_nomes(cptr->c->nome);
+    l_apaga(c);
+}
+
+void altera_email() {
+    char buffer[MAXCHAR]; /* e preciso por mais pequeno???? */
+    char *nome, *user, *dom;
+    Node aux;
+
+    fgets(buffer, MAXCHAR, stdin);
+    /*buffer[strlen(buffer) - 1] = NUL;    ignorar o \n do final do input */
+    nome = strtok(buffer, SEPARADOR);
+    user = strtok(NULL, ARROBA);
+    dom = strtok(NULL, FIM);
+    if ((aux = itera_contactos(nome)) != NULL) {
+        apaga_emails(aux->c->nome, aux->c->dom);
+        aux->c->user = (char*)realloc(aux->c->user, sizeof(char)*(strlen(user)+1));
+        strcpy(aux->c->user, user);
+        aux->c->dom = (char*)realloc(aux->c->dom, sizeof(char)*(strlen(dom)+1));
+        strcpy(aux->c->dom, dom);
+        insere_emails(aux->c);
+    }  
+}
+
+void numero_dom_email() {
+    char dom[MAXEMAIL];
+
+    fgets(dom, MAXEMAIL, stdin);
+    dom[strlen(dom) - 1] = NUL;  /* ignorar o \n do final do input */
+    printf("%s:%d\n", dom, conta_emails(dom));
+}

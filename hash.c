@@ -19,7 +19,6 @@ void init_emails() {
 
     emails = (Node*)malloc(NUMEMAILS*sizeof(Node));
     for (i = 0; i < NUMEMAILS; i++)
-
         emails[i] = NULL;
 }
 
@@ -38,35 +37,38 @@ Node procura_nome(Node head, char* nome) {
     return NULL;
 }
 
-Node procura_email(Node head, char *email) {
-    Node aux;
-    for (aux = head; aux != NULL; aux = aux->next)
-        if (!strcmp(aux->c->dom, email))
-            return aux;
-    return NULL;
-}
-
-Node h_apaga(Node head, char* nome){
+Node h_apaga(Node head, char* nome) {
     Node aux, prev;
     for (aux = head, prev = NULL; aux != NULL; prev = aux, aux = aux->next) {
         if (!strcmp(aux->c->nome, nome)) {
-            if (aux == head)
+            if (aux == head) {
                 head = aux->next;
-            else
+            }
+            else {
                 prev->next = aux->next;
+            }
             free(aux);
+            return head;
         }
     }
     return head;
 }
+ 
+void h_destroy() {
+    destroy(nomes, NUMNOMES);
+    destroy(emails, NUMEMAILS);
+}
 
-void h_destroy(Node head) {
+void destroy(Node *head, int max) {
+    int i;
     Node aux = NULL;
-    while(head != NULL) {
-        aux = head->next;
-        free(head);
-        head = aux;
+    for (i = 0; i < max; i++)
+        while(head[i] != NULL) {
+            aux = head[i]->next;
+            free(head[i]);
+            head[i] = aux;
     }
+    free(head);
 } 
 
 /* devolve um numero gerado a partir de uma string, 
@@ -80,21 +82,46 @@ unsigned int djb (char *s) {
     return hash;
 }
 
-unsigned int indice_hash(char *s) {
+unsigned int indice_hash_nomes(char *s) {
     return (djb(s)%NUMNOMES);
 }
 
+unsigned int indice_hash_emails(char *s) {
+    return (djb(s)%NUMEMAILS);
+}
+
 void insere_nomes(Cont c) {
-    int i = indice_hash(c->nome);
+    int i = indice_hash_nomes(c->nome);
     nomes[i] = push(nomes[i], c);
 }
 
 void insere_emails(Cont c) {
-    int i = indice_hash(c->dom);
+    int i = indice_hash_emails(c->dom);
     emails[i] = push(emails[i], c);
 }
 
+void apaga_nomes(char *nome) {
+    int i = indice_hash_nomes(nome);
+    nomes[i] = h_apaga(nomes[i], nome);
+}
+
+void apaga_emails(char *nome, char *dom) {
+    int i = indice_hash_emails(dom);
+    emails[i] = h_apaga(emails[i], nome);
+}
+
 Node procura_nomes(char *nome) {
-    int i = indice_hash(nome);
+    int i = indice_hash_nomes(nome);
     return procura_nome(nomes[i], nome);
+}
+
+int conta_emails(char *dom) {
+    Node aux;
+    int count = 0;
+    int i = indice_hash_emails(dom);
+
+    for (aux = emails[i]; aux != NULL; aux = aux->next)
+        if (!strcmp(aux->c->dom, dom))
+            count++;
+    return count;
 }

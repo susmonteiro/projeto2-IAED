@@ -17,14 +17,17 @@ void init_nomes();
 void init_emails();
 Node push(Node head, Cont c);
 Node procura_nome(Node head, char* nome);
-Node procura_email(Node head, char *email);
-Node h_apaga(Node head, char *nome);
-void h_destroy(Node head);
+Node h_apaga(Node head, char* nome);
+void h_destroy();
+void destroy(Node *head, int max);
 unsigned int djb(char *s);
-unsigned int indice_hash(char *s);
+unsigned int indice_hash_nomes(char *s);
+unsigned int indice_hash_emails(char *s);
 void insere_nomes(Cont c);
 void insere_emails(Cont c);
+void apaga_nomes(char *nome);
+void apaga_emails(char *nome, char *emails);
 Node procura_nomes(char *nome);
-void procura_emails();
+int conta_emails(char *dom);
 
 #endif

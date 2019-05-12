@@ -1,23 +1,13 @@
 #include "listas.h"
 
-static Cont head;
-static Cont tail;
+static Cont head = NULL;
+static Cont tail = NULL;
 
 Cont NEW() {
     Cont c = novo_contacto();
     c->next = NULL;
     c->prev = NULL;
     return c;
-}
-
-Cont cont_aux() {
-    Cont c = (Cont)malloc(sizeof(struct contacto));
-
-    c->nome = (char*)malloc(sizeof(char*)*MAXNOME);
-    c->user = (char*)malloc(sizeof(char*)*MAXEMAIL);
-    c->dom = (char*)malloc (sizeof(char*)*MAXEMAIL);
-    c->num = (char*)malloc(sizeof(char*)*MAXNUMERO);  
-    return c;  
 }
 
 Cont novo_contacto() {
@@ -74,7 +64,10 @@ void print() {
 }
 
 void l_apaga(Cont c) {
-    if (c == head) {
+    if (head == tail) {
+        head = NULL;
+        tail = NULL;
+    } else if (c == head) {
         head = c->next;
         head->prev = NULL;
     } else if (c == tail) {
@@ -99,7 +92,7 @@ void l_destroy() {
     Cont c = NULL;
     while (head != NULL) {
         c = head->next;
-        freenode(c);
+        freenode(head);
         head = c;
     }
 }

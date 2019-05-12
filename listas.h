@@ -12,6 +12,7 @@
 #define NUL '\0'
 #define SEPARADOR " "
 #define ARROBA "@"
+#define FIM "\n"
 
 typedef struct contacto {
     struct contacto *next, *prev;
