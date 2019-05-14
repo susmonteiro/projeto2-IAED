@@ -1,5 +1,6 @@
 #include "hash.h"
 
+
 /* funcoes principais */
 void adiciona_contacto(); 
 void lista_todos();

@@ -7,18 +7,18 @@ static Node *emails;
 void init_nomes() {
     int i;
 
-    nomes = (Node*)malloc(NUMNOMES*sizeof(Node));
-    for (i = 0; i < NUMNOMES; i++)
+    nomes = (Node*)malloc(NUMELEMS*sizeof(Node));
+    for (i = 0; i < NUMELEMS; i++)
         nomes[i] = NULL;
 }
 
 /* inicializacao da hashtable com os contactos organizados 
-    de acordo com o seu dominio do email*/
+    de acordo com o seu dominio do email */
 void init_emails() {
     int i;
 
-    emails = (Node*)malloc(NUMEMAILS*sizeof(Node));
-    for (i = 0; i < NUMEMAILS; i++)
+    emails = (Node*)malloc(NUMELEMS*sizeof(Node));
+    for (i = 0; i < NUMELEMS; i++)
         emails[i] = NULL;
 }
 
@@ -41,12 +41,10 @@ Node h_apaga(Node head, char* nome) {
     Node aux, prev;
     for (aux = head, prev = NULL; aux != NULL; prev = aux, aux = aux->next) {
         if (!strcmp(aux->c->nome, nome)) {
-            if (aux == head) {
+            if (aux == head)
                 head = aux->next;
-            }
-            else {
+            else
                 prev->next = aux->next;
-            }
             free(aux);
             return head;
         }
@@ -55,8 +53,8 @@ Node h_apaga(Node head, char* nome) {
 }
  
 void h_destroy() {
-    destroy(nomes, NUMNOMES);
-    destroy(emails, NUMEMAILS);
+    destroy(nomes, NUMELEMS);
+    destroy(emails, NUMELEMS);
 }
 
 void destroy(Node *head, int max) {
@@ -74,51 +72,43 @@ void destroy(Node *head, int max) {
 /* devolve um numero gerado a partir de uma string, 
     para ser usado na funcao de dispersao*/
 unsigned int djb (char *s) {
-    unsigned int hash = CONST1DJB; /* CONSTANTE */
+    unsigned int hash = CONST1DJB;
     int c;
 
     while ((c = *s++))
-        hash = hash * CONST2DJB + c; /* CONSTANTE */
+        hash = hash * CONST2DJB + c; 
     return hash;
 }
 
-unsigned int indice_hash_nomes(char *s) {
-    return (djb(s)%NUMNOMES);
-}
-
-unsigned int indice_hash_emails(char *s) {
-    return (djb(s)%NUMEMAILS);
-}
-
 void insere_nomes(Cont c) {
-    int i = indice_hash_nomes(c->nome);
+    int i = indice_hash(djb(c->nome));
     nomes[i] = push(nomes[i], c);
 }
 
 void insere_emails(Cont c) {
-    int i = indice_hash_emails(c->dom);
+    int i = indice_hash(djb(c->dom));
     emails[i] = push(emails[i], c);
 }
 
 void apaga_nomes(char *nome) {
-    int i = indice_hash_nomes(nome);
+    int i = indice_hash(djb(nome));
     nomes[i] = h_apaga(nomes[i], nome);
 }
 
 void apaga_emails(char *nome, char *dom) {
-    int i = indice_hash_emails(dom);
+    int i = indice_hash(djb(dom));
     emails[i] = h_apaga(emails[i], nome);
 }
 
 Node procura_nomes(char *nome) {
-    int i = indice_hash_nomes(nome);
+    int i = indice_hash(djb(nome));;
     return procura_nome(nomes[i], nome);
 }
 
 int conta_emails(char *dom) {
     Node aux;
     int count = 0;
-    int i = indice_hash_emails(dom);
+    int i = indice_hash(djb(dom));;
 
     for (aux = emails[i]; aux != NULL; aux = aux->next)
         if (!strcmp(aux->c->dom, dom))

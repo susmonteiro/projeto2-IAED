@@ -3,10 +3,12 @@
 
 #include "listas.h"
 
-#define NUMNOMES 511
-#define NUMEMAILS 511
+#define NUMELEMS 511
 #define CONST1DJB 5381
 #define CONST2DJB 33
+
+#define indice_hash(s) s%NUMELEMS
+
 
 typedef struct node {
     struct node *next;
@@ -21,8 +23,6 @@ Node h_apaga(Node head, char* nome);
 void h_destroy();
 void destroy(Node *head, int max);
 unsigned int djb(char *s);
-unsigned int indice_hash_nomes(char *s);
-unsigned int indice_hash_emails(char *s);
 void insere_nomes(Cont c);
 void insere_emails(Cont c);
 void apaga_nomes(char *nome);

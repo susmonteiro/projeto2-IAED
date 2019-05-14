@@ -17,26 +17,15 @@ Cont novo_contacto() {
 
     fgets(buffer, MAXCHAR, stdin);
     token = strtok(buffer, SEPARADOR);
-    c->nome = (char*)malloc(sizeof(char)*(strlen(token)+1));
-    strcpy(c->nome, token);
+    c->nome = strdup(token);
     token = strtok(NULL, ARROBA);
-    c->user = (char*)malloc(sizeof(char)*(strlen(token)+1));
-    strcpy(c->user, token);
+    c->user = strdup(token);
     token = strtok(NULL, SEPARADOR);
-    c->dom = (char*)malloc(sizeof(char)*(strlen(token)+1));
-    strcpy(c->dom, token);
+    c->dom = strdup(token);
     token = strtok(NULL, FIM);
-    c->num = (char*)malloc(sizeof(char)*(strlen(token)+1));
-    strcpy(c->num, token);
+    c->num = strdup(token);
     return c;
 }
-
-/*Cont insere_inicio(Cont head, Contacto *c) {
-    Cont x = NEW(c);
-    x->next = head;
-    head->prev = x;
-    return x;    nova head 
-}*/
 
 void insere_fim(Cont c) {
     c->prev = tail;
@@ -44,19 +33,10 @@ void insere_fim(Cont c) {
         tail->next = c;
     else
         head = c;
-    tail = c;   /* nova tail */
+    tail = c;               /* nova tail */
 }
 
-/*Cont procura(Cont head, char *nome) {
-    Cont t;
-    for (t = head; t != NULL; t = t->next)
-        if (!strcmp(t->contacto->nome,nome))
-            return t;
-    return NULL;
-}
-*/
-
-void print() {
+void lista_todos() {
     Cont t;
     for (t = head; t != NULL; t = t->next)
         printf("%s %s@%s %s\n", t->nome, t->user, t->dom, t->num);
@@ -94,4 +74,12 @@ void l_destroy() {
         freenode(head);
         head = c;
     }
+}
+
+char *strdup(char *s) {
+    char *ptr;
+
+    ptr = (char*)malloc(sizeof(char)*(strlen(s)+1));
+    strcpy(ptr,s);
+    return ptr;
 }

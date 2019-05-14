@@ -13,7 +13,7 @@ gdb:
 		gcc -Wall -Wextra -ansi -pedantic -o p2 p2.c hash.c listas.c -g
 
 run: p2.c
-		./p2 < ../../IAED1819/projectos/p2/testes_enunciado/t0.in > test.myout
+		../
 
 run_in_terminal:
 		./p2 < ../../IAED1819/projectos/p2/testes_enunciado/t0.in

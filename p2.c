@@ -44,6 +44,7 @@ int main() {
 }
 
 /*                            FUNCOES PRINCIPAIS                             */
+
 void adiciona_contacto() {
     Cont c = NEW();
     if (procura_nomes(c->nome) != NULL) {
@@ -57,10 +58,6 @@ void adiciona_contacto() {
     }
 }
 
-void lista_todos() {
-    print();
-}
-
 void procura_contacto() {
     Node cptr = procura_contacto_aux();
 
@@ -68,21 +65,6 @@ void procura_contacto() {
         printf("%s %s@%s %s\n", cptr->c->nome, cptr->c->user, cptr->c->dom, cptr->c->num);
 }
 
-Node procura_contacto_aux() {
-    char nome[MAXNOME];
-
-    fgets(nome, MAXNOME, stdin);
-    nome[strlen(nome) - 1] = NUL; /* ignorar o \n do final do input */
-    return itera_contactos(nome);
-}
-
-Node itera_contactos(char *nome) {
-    Node cptr;
-
-    if ((cptr = procura_nomes(nome)) == NULL) 
-        printf("Nome inexistente.\n");
-    return cptr;
-}
 
 void apaga_contacto() {
     Node cptr = procura_contacto_aux();
@@ -120,4 +102,22 @@ void numero_dom_email() {
     fgets(dom, MAXEMAIL, stdin);
     dom[strlen(dom) - 1] = NUL;  /* ignorar o \n do final do input */
     printf("%s:%d\n", dom, conta_emails(dom));
+}
+
+
+/*                            FUNCOES AUXILIARES                             */
+Node procura_contacto_aux() {
+    char nome[MAXNOME];
+
+    fgets(nome, MAXNOME, stdin);
+    nome[strlen(nome) - 1] = NUL; /* ignorar o \n do final do input */
+    return itera_contactos(nome);
+}
+
+Node itera_contactos(char *nome) {
+    Node cptr;
+
+    if ((cptr = procura_nomes(nome)) == NULL) 
+        printf("Nome inexistente.\n");
+    return cptr;
 }
