@@ -16,7 +16,6 @@ Cont novo_contacto() {
     Cont c = (Cont)malloc(sizeof(struct contacto));
 
     fgets(buffer, MAXCHAR, stdin);
-    buffer[strlen(buffer) - 1] = NUL;   /* ignorar o \n do final do input */
     token = strtok(buffer, SEPARADOR);
     c->nome = (char*)malloc(sizeof(char)*(strlen(token)+1));
     strcpy(c->nome, token);
@@ -26,7 +25,7 @@ Cont novo_contacto() {
     token = strtok(NULL, SEPARADOR);
     c->dom = (char*)malloc(sizeof(char)*(strlen(token)+1));
     strcpy(c->dom, token);
-    token = strtok(NULL, token);
+    token = strtok(NULL, FIM);
     c->num = (char*)malloc(sizeof(char)*(strlen(token)+1));
     strcpy(c->num, token);
     return c;

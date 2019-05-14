@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAXCHAR 2048
+#define MAXCHAR 4096
 #define MAXNOME 1024
 #define MAXEMAIL 512
 #define MAXNUMERO 64

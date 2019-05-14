@@ -96,12 +96,11 @@ void apaga_contacto() {
 }
 
 void altera_email() {
-    char buffer[MAXCHAR]; /* e preciso por mais pequeno???? */
+    char buffer[MAXCHAR]; 
     char *nome, *user, *dom;
     Node aux;
 
     fgets(buffer, MAXCHAR, stdin);
-    /*buffer[strlen(buffer) - 1] = NUL;    ignorar o \n do final do input */
     nome = strtok(buffer, SEPARADOR);
     user = strtok(NULL, ARROBA);
     dom = strtok(NULL, FIM);
