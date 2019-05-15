@@ -12,15 +12,16 @@ descricao: funcoes auxiliares do ficheiro proj2.c
 #include <stdlib.h>
 #include <string.h>
 
-#define MAXCHAR 4096
-#define MAXNOME 1024
-#define MAXEMAIL 512
-#define MAXNUMERO 64
-#define NUL '\0'
-#define SEPARADOR " "
-#define ARROBA "@"
-#define FIM "\n"
+#define MAXCHAR 4096    /* numero maximo de caracteres de input */   
+#define MAXNOME 1024    /* numero maximo de caracteres para o nome */
+#define MAXEMAIL 512    /* numero maximo de caracteres do username e dominio do email*/
+#define MAXNUMERO 64    /* numero maximo de caracteres do numero do contacto */
+#define NUL '\0'        /* null character */
+#define SEPARADOR " "   /* caracter que separa as informacoes */ 
+#define ARROBA "@"      /* caracter que separa o username do dominio do email */
+#define FIM "\n"        /* final de um input */
 
+/* estrutura que guarda as informacoes acerca do contacto na lista duplamente ligada*/
 typedef struct contacto {
     struct contacto *next, *prev;
     char *nome;
@@ -30,14 +31,14 @@ typedef struct contacto {
 } *LCont;
 
 
-LCont NEW(); /* criacao do novo contacto */
+LCont NEW();
 LCont novo_contacto();
 LCont cont_aux();
-void insere_fim (LCont); /* inserir elemento no final da lista */
+void insere_fim (LCont);
 void print_lista_dup_ligada();
 void l_apaga(LCont);
 void freenode(LCont);
 void l_destroy();
-char *strdup(char*);
+char *duplica_str(char*);
 
 #endif

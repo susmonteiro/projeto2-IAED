@@ -62,8 +62,8 @@ void adiciona_contacto() {
     }
     else {
         insere_fim(c);
-        insere_nomes(c);
-        insere_emails(c);
+        insere_nome(c);
+        insere_email(c);
     }
 }
 
@@ -117,7 +117,7 @@ void altera_email() {
         strcpy(aux->c->user, user);
         aux->c->dom = (char*)realloc(aux->c->dom, sizeof(char)*(strlen(dom)+1));
         strcpy(aux->c->dom, dom);
-        insere_emails(aux->c);
+        insere_email(aux->c);
     }  
 }
 

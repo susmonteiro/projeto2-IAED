@@ -33,13 +33,13 @@ LCont novo_contacto() {
 
     fgets(buffer, MAXCHAR, stdin);
     token = strtok(buffer, SEPARADOR);
-    c->nome = strdup(token);
+    c->nome = duplica_str(token);
     token = strtok(NULL, ARROBA);
-    c->user = strdup(token);
+    c->user = duplica_str(token);
     token = strtok(NULL, SEPARADOR);
-    c->dom = strdup(token);
+    c->dom = duplica_str(token);
     token = strtok(NULL, FIM);
-    c->num = strdup(token);
+    c->num = duplica_str(token);
     return c;
 }
 
@@ -62,6 +62,8 @@ void print_lista_dup_ligada() {
         printf("%s %s@%s %s\n", t->nome, t->user, t->dom, t->num);
 }
 
+/* apaga um no da lista 
+recebe um ponteiro para o contacto a apagar e nao devolve nada */
 void l_apaga(LCont c) {
     if (head == tail) {
         head = NULL;
@@ -79,6 +81,8 @@ void l_apaga(LCont c) {
     freenode(c);            
 }
 
+/* liberta a memoria alocada para um no da lista 
+recebe o contacto que se pretende libertar e nao devolve nada*/
 void freenode(LCont c) {
     free(c->nome);
     free(c->user);
@@ -87,6 +91,8 @@ void freenode(LCont c) {
     free(c);
 }
 
+/* destroi a lista, libertando toda a memoria alocada 
+nao tem parametros de entrada nem de saida */
 void l_destroy() {
     LCont c = NULL;
     while (head != NULL) {
@@ -96,7 +102,9 @@ void l_destroy() {
     }
 }
 
-char *strdup(char *s) {
+/* duplica uma string, alocando a memoria necessaria para a nova string 
+recebe a string a duplicar e devolve um ponteiro para ela */
+char *duplica_str(char *s) {
     char *ptr;
 
     ptr = (char*)malloc(sizeof(char)*(strlen(s)+1));

@@ -1,5 +1,5 @@
 /*
-file: proj2.c
+file: proj2.h
 autor: Susana Monteiro, 92560
 data: 17/05/2019
 descricao: sistema de gestao de contactos, com uso de:
@@ -9,7 +9,7 @@ pela qual foram adicionados (file: listas.c)
 organizados pelo seu nome e outra segundo o dominio do seu email (file: hashtables.c)
 */
 
-#include "hash.h"
+#include "hashtables.h"
 
 
 /* funcoes principais */
